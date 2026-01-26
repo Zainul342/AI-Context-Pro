@@ -120,6 +120,8 @@ All API errors must follow a consistent envelope structure, matching the success
 ```
 
 ### Related Principles
-- [Error Handling Principles](#error-handling-principles)  
-- [Security Principles](#security-principles)
-- [Logging and Observability Principles](#logging-and-observability-principles)
+- Error Handling Principles @error-handling-principles.md
+- Security Mandate @security-mandate.md
+- Security Principles @security-principles.md
+- Logging and Observability Mandate @logging-and-observability-mandate.md
+- Logging and Observability Principles @logging-and-observability-principles.md

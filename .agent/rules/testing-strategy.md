@@ -204,5 +204,5 @@ expect(mockRepo.save).toHaveBeenCalledWith(user);
 - E2E tests: Critical user journeys
 
 ### Related Principles
-- [Architectural Patterns - Testability-First Design](#architectural-patterns---testability-first-design)
-- [Error Handling Principles](#error-handling-principles)  
+- Architectural Patterns - Testability-First Design @architectural-pattern.md
+- Error Handling Principles @error-handling-principles.md

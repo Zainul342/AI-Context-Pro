@@ -42,7 +42,7 @@ Prefer middleware, decorators, or framework interceptors for automatic operation
 ### Implementation Guide
 
 For detailed implementation patterns, see:
-- **[Logging and Observability Principles](#logging-and-observability-principles)** - Complete implementation guide including:
+- **Logging and Observability Principles @logging-and-observability-principles.md** - Complete implementation guide including:
   - Log levels and when to use them
   - Structured logging patterns
   - Language-specific implementations (Go, TypeScript, Python)
@@ -52,6 +52,6 @@ For detailed implementation patterns, see:
   - Testing and monitoring integration
 
 ### Related Principles
-- [Logging and Observability Principles (Implementation)](#logging-and-observability-principles) - Detailed implementation guide
-- [Error Handling Principles](#error-handling-principles) - Error context requirements
-- [API Design Principles](#api-design-principles) - API-specific observability patterns
+- Logging and Observability Principles @logging-and-observability-principles.md
+- Error Handling Principles @error-handling-principles.md
+- API Design Principles @api-design-principles.md

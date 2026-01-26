@@ -65,8 +65,11 @@ description: When implementing logging, working with loggers, or setting up obse
 - [ ] Is error handling consistent across application?
 
 ### Related Principles
-- [API Design: Error Response Format](#api-design-principles) - JSON envelope structure
-- [Logging: Correlation IDs](#logging-and-observability-principles) - Traceability
-- [Security: No Information Leakage](#security-principles) - Sanitization
-- [Testing: Negative Test Cases](#testing-strategy) - Error path coverage
-- [Concurrency: Error in Thread Context](#concurrency-and-threading-principles) - Thread failures
+- API Design Principles @api-design-principles.md - API Error Response Format section
+- Logging and Observability Mandate @logging-and-observability-mandate.md
+- Logging and Observability Principles @logging-and-observability-principles.md
+- Security Mandate @security-mandate.md
+- Security Principles @security-principles.md
+- Testing Strategy @testing-strategy.md
+- Concurrency and Threading Mandate @concurrency-and-threading-mandate.md
+- Concurrency and Threading Implementation Principles @concurrency-and-threading-principles.md

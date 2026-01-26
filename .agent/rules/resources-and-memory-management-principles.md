@@ -124,5 +124,6 @@ description: When working with resources requiring cleanup (files, database conn
 - Use reference counting (Arc, Rc) for shared ownership
 
 ### Related Principles
-- [Concurrency and Threading Principles](#concurrency-and-threading-principles) - Thread safety, timeouts
-- [Error Handling Principles](#error-handling-principles) - Resource cleanup in error paths
+- Concurrency and Threading Mandate @concurrency-and-threading-mandate.md
+- Concurrency and Threading Implementation Principles @concurrency-and-threading-principles.md
+- Error Handling Principles @error-handling-principles.md - Resource cleanup in error paths

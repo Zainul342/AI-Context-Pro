@@ -103,4 +103,5 @@ production:
 ```
 
 ### Related Principles
-- [Security Principles](#security-principles) - Secrets management, validation
+- Security Mandate @security-mandate.md
+- Security Principles @security-principles.md

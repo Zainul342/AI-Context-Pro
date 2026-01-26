@@ -41,4 +41,5 @@ description: When executing external commands, shell scripts, or system processe
 - Handle "command not found" gracefully
 
 ### Related Principles
-- [Security Principles](#security-principles)
+- Security Mandate @security-mandate.md
+- Security Principles @security-principles.md

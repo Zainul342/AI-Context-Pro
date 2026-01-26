@@ -84,6 +84,6 @@ description: When implementing concurrent, parallel, or multi-threaded code (asy
 - Test thread pool full, queue full scenarios
 
 ### Related Principles
-- [Resource and Memory Management Principles](#resource-and-memory-management-principles)
-- [Error Handling Principles](#error-handling-principles)  
-- [Testing Strategy](#testing-strategy) 
+- Resource and Memory Management Principles @resources-and-memory-management-principles.md
+- Error Handling Principles @error-handling-principles.md
+- Testing Strategy @testing-strategy.md

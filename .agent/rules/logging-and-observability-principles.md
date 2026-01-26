@@ -5,11 +5,11 @@ description: When implementing logging, working with loggers, or setting up obse
 
 ## Logging and Observability Principles
 
-> **⚠️ Prerequisite:** All operations MUST be logged per [Observability Mandate](#observability-mandate). This guide provides implementation details.
+> **⚠️ Prerequisite:** All operations MUST be logged per Logging and Observability Mandate @logging-and-observability-mandate.md. This guide provides implementation details.
 
 ### Quick Reference: Mandatory Requirements
 
-Before diving into implementation details, remember these requirements from [Observability Mandate](#observability-mandate):
+Before diving into implementation details, remember these requirements from Logging and Observability Mandate @logging-and-observability-mandate.md:
 
 ✅ **Every operation must log:**
 1. Start (with correlationId, operation name, context)
@@ -394,6 +394,7 @@ logger := slog.New(slog.NewJSONHandler(&buf, nil))
 - `/ready`: "Am I ready to serve?" (includes dependencies)
 
 ### Related Principles
-- [Error Handling Principles](#error-handling-principles)  
-- [Security Principles](#security-principles)
-- [API Design Principles](#api-design-principles)
+- Error Handling Principles @error-handling-principles.md
+- Security Mandate @security-mandate.md
+- Security Principles @security-principles.md
+- API Design Principles @api-design-principles.md

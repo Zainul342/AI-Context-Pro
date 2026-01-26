@@ -316,7 +316,7 @@ Before marking code complete, verify:
 - [ ] Does pattern match existing codebase (80%+ consistency)?
 
 ### Related Principles
-- [SOLID: Dependency Inversion](#dependency-inversion-principle-dip) - Ports as abstractions
-- [Testing: Mock Ports Strategy](#test-doubles-strategy) - Unit test isolation
-- [Code Organization: Feature Packaging](#code-organization-principles) - Vertical slices
-- [Dependency Management: Avoid Circular](#avoid-circular-dependencies) - Layer separation
+- Core Design Principles @core-design-principles.md
+- Testing Strategy @testing-strategy.md
+- Avoid Circular Dependencies @avoid-circular-dependencies.md
+- Code Organization Principles @code-organization-principles.md
