@@ -13,7 +13,7 @@ trigger: always_on
 3. **Fail securely:** When errors occur, fail closed (deny access) rather than open
 4. **Defense in depth:** Multiple layers of security, never rely on a single control
 
-**When implementing security-sensitive features (auth, validation, queries), see [Security Principles](#security-principles) for detailed implementation guidance.**
+**When implementing security-sensitive features (auth, validation, queries), see Security Principles @security-principles.md for detailed implementation guidance.**
 
 ### Related Principles
-- [Security Principles (Implementation)](#security-principles) - OWASP, crypto, auth patterns
+- Security Principles @security-principles.md
