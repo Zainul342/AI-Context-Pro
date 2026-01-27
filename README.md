@@ -9,6 +9,8 @@
     <a href="https://github.com/irahardianto/antigravity-setup/issues">Report Bug</a>
     ·
     <a href="https://github.com/irahardianto/antigravity-setup/issues">Request Feature</a>
+    <br />
+    <br />
   </p>
 </div>
 
@@ -29,8 +31,6 @@ You can drop this configuration into the context or custom rule settings of:
 
 For example, the principles of the [Rugged Software Constitution](.agent/rules/rugged-software-constitution.md) which is based on [Rugged Software Manifesto](https://ruggedsoftware.org/) are universal and will improve the output of any LLM-based coding assistant.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -48,8 +48,6 @@ To equip your AI agent with these superpowers, follow these steps.
     cp -r /path/to/antigravity-setup/.agent ./your-project-root/
     ```
 2.  Ensure your AI agent is configured to read from the `.agent` directory (most of well-known AI coding assistant are adhering to the `.agent` convention by default) or manually ingest the `.agent/rules/**` as part of its system prompt.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE -->
 ## Usage
@@ -90,10 +88,7 @@ The power of the setup comes from its extensive collection of rules covering eve
 
 *   **[Debugging Protocol](.agent/skills/debugging-protocol/SKILL.md)**: Systematic approach to solving errors.
 *   **[Frontend Design](.agent/skills/frontend-design/SKILL.md`)**: Guidelines for creating visually appealing UIs, based on [Antrophic Frontend-Design Skills](https://github.com/anthropics/skills/tree/main/skills/frontend-design)
-*   **[Sequential Thinking](.agent/skills/sequential-thinking/SKILL.md)**: A tool for breaking down complex problems, adaptation from [Sequential Thinking MCP Server](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+*   **[Sequential Thinking](.agent/skills/sequential-thinking/SKILL.md)**: A tool for breaking down complex problems, an adaptation from [Sequential Thinking MCP Server](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking)
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -104,8 +99,6 @@ The power of the setup comes from its extensive collection of rules covering eve
 - [ ] Add automated validation scripts to check if an agent is following the constitution.
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -118,14 +111,10 @@ Contributions are what make the open source community such an amazing place to l
 4.  Push to the Branch (`git push origin feature/AmazingFeature`)
 5.  Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
