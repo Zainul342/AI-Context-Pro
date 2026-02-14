@@ -1,4 +1,5 @@
 import { TemplateContent, TemplateSource } from './types';
+import { FALLBACK_CONTENT, filesToFetch } from './fallback-data';
 
 export class GitHubClient {
     private readonly baseUrl = 'https://raw.githubusercontent.com';
@@ -8,19 +9,6 @@ export class GitHubClient {
      * @param source The source repository details.
      */
     public async fetchTemplate(source: TemplateSource): Promise<TemplateContent> {
-        const filesToFetch = [
-            '.cursorrules',
-            '.agent/rules/api-design-principles.md',
-            '.agent/rules/architectural-pattern.md',
-            '.agent/rules/code-completion-mandate.md',
-            '.agent/rules/core-design-principles.md',
-            '.agent/rules/project-structure.md',
-            '.agent/rules/rugged-software-constitution.md',
-            '.agent/rules/security-mandate.md',
-            '.agent/rules/testing-strategy.md'
-            // Added key rules found in local .agent
-        ];
-
         const files = new Map<string, string>();
 
         // Parallel fetch
@@ -31,10 +19,11 @@ export class GitHubClient {
                 files.set(filePath, content);
             } catch (error) {
                 console.error(`Failed to fetch ${url}:`, error);
-                // Fallback for .cursorrules to ensure critical path success
-                if (filePath === '.cursorrules') {
-                    console.warn('Using fallback content for .cursorrules');
-                    files.set(filePath, '# Agent Init Fallback Rules\n\nALWAYS FOLLOW THESE RULES:\n1. Be helpful.\n2. Write clean code.');
+
+                // Fallback mechanism for ALL files
+                if (FALLBACK_CONTENT[filePath]) {
+                    console.warn(`Using fallback content for ${filePath}`);
+                    files.set(filePath, FALLBACK_CONTENT[filePath]);
                     return;
                 }
 

@@ -2,7 +2,9 @@ import * as vscode from 'vscode';
 import { ConfigManager } from './config';
 
 export class WatcherService {
-    constructor() { }
+    constructor() {
+        // Initialize watcher
+    }
 
     /**
      * Checks if the workspace needs initialization.

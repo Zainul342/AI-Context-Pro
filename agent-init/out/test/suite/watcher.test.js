@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const assert = require("assert");
 const vscode = require("vscode");
 const sinon = require("sinon");
-const watcher_1 = require("../../src/watcher");
-const config_1 = require("../../src/config");
+const watcher_1 = require("../../watcher");
+const config_1 = require("../../config");
 suite('WatcherService Test Suite', () => {
     let sandbox;
     setup(() => {

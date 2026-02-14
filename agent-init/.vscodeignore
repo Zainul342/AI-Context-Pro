@@ -1,0 +1,21 @@
+.vscode/**
+.vscode-test/**
+out/**
+src/**
+.gitignore
+.editorconfig
+**/*.map
+**/*.ts
+node_modules/**
+.eslintrc.json
+tsconfig.json
+webpack.config.js
+generate_fallback.js
+fallback.txt
+fallback_temp.txt
+generate_fallback_export.js
+firebase-debug.log
+package-lock.json
+vsc-extension-quickstart.md
+# Exclude everything by default and only include what we need
+# Wait, vscodeignore works like gitignore. It's better to list what to ignore.

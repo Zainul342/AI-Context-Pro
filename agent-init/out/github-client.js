@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GitHubClient = void 0;
+const fallback_data_1 = require("./fallback-data");
 class GitHubClient {
     constructor() {
         this.baseUrl = 'https://raw.githubusercontent.com';
@@ -10,21 +11,9 @@ class GitHubClient {
      * @param source The source repository details.
      */
     async fetchTemplate(source) {
-        const filesToFetch = [
-            '.cursorrules',
-            '.agent/rules/api-design-principles.md',
-            '.agent/rules/architectural-pattern.md',
-            '.agent/rules/code-completion-mandate.md',
-            '.agent/rules/core-design-principles.md',
-            '.agent/rules/project-structure.md',
-            '.agent/rules/rugged-software-constitution.md',
-            '.agent/rules/security-mandate.md',
-            '.agent/rules/testing-strategy.md'
-            // Added key rules found in local .agent
-        ];
         const files = new Map();
         // Parallel fetch
-        await Promise.all(filesToFetch.map(async (filePath) => {
+        await Promise.all(fallback_data_1.filesToFetch.map(async (filePath) => {
             const url = `${this.baseUrl}/${source.owner}/${source.repo}/${source.branch}/${filePath}`;
             try {
                 const content = await this.fetchUrl(url);
@@ -32,8 +21,12 @@ class GitHubClient {
             }
             catch (error) {
                 console.error(`Failed to fetch ${url}:`, error);
-                // For MVP, we might log and continue, or fail hard?
-                // Let's ensure at least .cursorrules exists
+                // Fallback mechanism for ALL files
+                if (fallback_data_1.FALLBACK_CONTENT[filePath]) {
+                    console.warn(`Using fallback content for ${filePath}`);
+                    files.set(filePath, fallback_data_1.FALLBACK_CONTENT[filePath]);
+                    return;
+                }
                 if (filePath === '.cursorrules') {
                     throw new Error(`Critical file missing: ${filePath}`);
                 }

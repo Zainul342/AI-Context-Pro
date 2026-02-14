@@ -1,8 +1,8 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 import * as sinon from 'sinon';
-import { WatcherService } from '../../src/watcher';
-import { ConfigManager } from '../../src/config';
+import { WatcherService } from '../../watcher';
+import { ConfigManager } from '../../config';
 
 suite('WatcherService Test Suite', () => {
     let sandbox: sinon.SinonSandbox;

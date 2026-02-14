@@ -59,5 +59,7 @@ async function performInitialization(folder, ui) {
         console.error('Agent Init Error:', error);
     }
 }
-function deactivate() { }
+function deactivate() {
+    // Clean up resources
+}
 //# sourceMappingURL=extension.js.map

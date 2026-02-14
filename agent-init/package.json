@@ -1,18 +1,36 @@
 {
   "name": "agent-init",
-  "displayName": "Agent Init",
-  "description": "Automated AI Context Standards Initialization",
-  "version": "0.0.1",
-  "publisher": "zainmutaqin",
+  "displayName": "AI Context Pro: Agent Init",
+  "description": "Standardize your AI coding environment by automatically initializing agent rules, workflows, and skills.",
+  "version": "1.0.0",
+  "publisher": "Zainul342",
+  "license": "MIT",
+  "icon": "resources/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zainul342/AI-Context-Pro"
+  },
   "author": {
     "name": "Zainul Mutaqin",
-    "email": "zain@example.com"
+    "email": "zain@mutaqin.id"
   },
+  "keywords": [
+    "ai",
+    "agent",
+    "cursor",
+    "standards",
+    "initialization",
+    "context",
+    "productivity",
+    "automated"
+  ],
   "engines": {
-    "vscode": "^1.80.0"
+    "vscode": "^1.109.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages",
+    "Other",
+    "Linters"
   ],
   "activationEvents": [
     "onStartupFinished"

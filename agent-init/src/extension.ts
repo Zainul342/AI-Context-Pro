@@ -69,4 +69,6 @@ async function performInitialization(folder: vscode.WorkspaceFolder, ui: UIContr
     }
 }
 
-export function deactivate() { }
+export function deactivate() {
+    // Clean up resources
+}

@@ -4,7 +4,9 @@ exports.WatcherService = void 0;
 const vscode = require("vscode");
 const config_1 = require("./config");
 class WatcherService {
-    constructor() { }
+    constructor() {
+        // Initialize watcher
+    }
     /**
      * Checks if the workspace needs initialization.
      * @param folder The workspace folder to check.
