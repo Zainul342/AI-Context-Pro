@@ -66,7 +66,18 @@ I built this named after my cat who likes to walk on my keyboard whenever I try 
 
 ---
 
-## License 
-MIT. Do whatever you want with it. 
+## 📚 Project Documentation
 
+If you're a contributor or just curious about the internals, check out these docs:
+
+- **[Product Requirements (PRD)](../docs/PRD.md)**: What we're building and why.
+- **[System Architecture](../docs/System_Architecture.md)**: High-level technical design.
+- **[Technical Specifications](../docs/Technical_Specifications.md)**: Detailed implementation guide.
+- **[Risk & Scalability](../docs/Risk_Security_Scalability.md)**: Security and future roadmap.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
 Made with ❤️ by [Zainul Mutaqin](https://github.com/Zainul342) - tbh mostly built this for my own workflows but hope it helps.
