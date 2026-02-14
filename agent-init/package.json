@@ -3,7 +3,11 @@
   "displayName": "Agent Init",
   "description": "Automated AI Context Standards Initialization",
   "version": "0.0.1",
-  "publisher": "irahardianto",
+  "publisher": "zainmutaqin",
+  "author": {
+    "name": "Zainul Mutaqin",
+    "email": "zain@example.com"
+  },
   "engines": {
     "vscode": "^1.80.0"
   },
