@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/Zainul342/AI-Context-Pro/main/agent-init/resources/icon.png" width="120" alt="Agent Init Logo">
   <h1 style="margin: 0.4em 0 0.2em; font-weight: 800; letter-spacing: -0.05em;">AI Context Pro: Agent Init</h1>
   <p style="color: #a1a1aa; font-size: 1.1rem; max-width: 550px; margin: 0 auto 1.5rem; line-height: 1.6;">
-    Stop manually copying rules. Let the machine initialize your AI standards so you can actually get back to coding.
+    I built this because honestly.. copying rules manually is for people who have more time than me. Standardize your AI context in seconds!!
   </p>
 
   <p>
@@ -15,11 +15,10 @@
 <hr style="border: 0; height: 1px; background: linear-gradient(to right, transparent, #4b5563, transparent); margin: 2.5rem 0;">
 
 <details open>
-<summary><b>Quick Nav</b></summary>
+<summary><b>Navigation</b></summary>
 
-- [The Mess](#-the-mess)
+- [The Mess](#-why-the-mess)
 - [How it works](#-how-it-works)
-- [Features](#-features)
 - [Quick Start](#-quick-start)
 - [TODO later](#-todo-later)
 
@@ -27,57 +26,56 @@
 
 <br>
 
-## 🌪 The Mess
-Tbh, I got tired of manually setting up `.cursorrules` and `.agent` directories every time I started a new project. If you're like me, you probably have a "god-folder" of markdown files you copy-paste into every repo just so your AI agent (Cursor, Windsurf, whatever) doesn't start hallucinating about your architecture.
+## 🌪 Why? (The Mess)
+Tbh, I got really tired of manually setting up `.cursorrules` and `.agent` directories for every small project I spin up. If you're like me, you probably have some folder somewhere full of markdown files that you copy-paste into every repo just so your AI agents (Cursor, Windsurf, whatever) doesn't start hallucinating after 10 messages.
 
-**Agent Init** fixes this. One command, and your workspace is standardized. No more "Wait, did I include the security mandate in this project?"
+**Agent Init** fixes this. One command and your workspace is standardized. Its simple and it works.. No more wondering "Wait, did I include the security mandate in this project?"
 
-## � Features (mostly for my own sanity)
-- **Automatic Scaffolding**: Dumps the `.agent/` directory with rules, workflows, and skills.
-- **Remote Sync**: Pulls from GitHub so you don't use outdated rules from 2024.
-- **Fail-safe Fallback**: Embedded scripts in case you're working from a plane or your internet is acting up. (Yeah, I included a 100kb blob inside the extension just for this). 
-- **Drift Detection**: Kinda monitors if your rules are getting "weird".
-- **Cursor Sync**: Updates `.cursorrules` globally.
+## ✨ Features (mostly for my own sanity)
+- **Automatic Scaffolding** -- Dumps the `.agent/` directory with rules, workflows, and skills.
+- **Remote Sync** -- Pulls from GitHub so you dont use outdated rules from 2024 (gross).
+- **Fail-safe Fallback** -- I included a 100kb blob inside the extension just for this so it works on planes or with bad wifi!!
+- **Drift Detection** -- Kinda monitors if your rules are getting "weird".
+- **Cursor Sync** -- It updates `.cursorrules` globally. Pretty cool.
 
-## � Quick Start
+## 🕹 Quick Start
 1. `Ctrl+Shift+P` (or `Cmd+Shift+P` for Mac folks).
 2. Type `Agent Init: Initialize Standards`.
-3. Press enter and let it do the boring stuff.
+3. Press enter and just wait.. thats it!!
 
 ## 📂 Structure it creates
 ```text
 .
 ├── .agent/
 │   ├── rules/          # The "don't do stupid stuff" files
-│   ├── workflows/      # How we actually move tickets
+│   ├── workflows/      # How we move tickets
 │   └── skills/         # Specialized AI brains
 └── .cursorrules        # The glue
 ```
 
 ## 🧠 Why I built this
-Standardisation (or standardization? idk, I use both) is key. Dealing with AI "context rot" where the model forgets your I/O isolation rules after 50 messages is a nightmare. This ensures the prompt always starts with a solid foundation. 
+Standardisation is key (standardization? idk, I use both). Dealing with AI "context rot" where the model forgets your I/O isolation rules after a while is a nightmare. This ensures the prompt always starts with a solid foundation. 
 
-I built this named after my cat who likes to walk on my keyboard whenever I try to write markdown. If it bugs out on ARM64, let me know, though it should be fine.
+Notes: I built this named after my cat who likes to walk on my keyboard whenever I try to write code. Its probably fine on ARM64 tho.. let me know if it breaks lol
 
 ## 📝 TODO later
-- [ ] implementation of proper versioning (rn it just says "latest" lol)
-- [ ] fix that one weird flicker in the UI-Controller
-- [ ] add more humor to the fallback data
+- [ ] Implement of proper versioning (rn it just says "latest" lol)
+- [ ] Fix that one weird flicker in the UI-Controller
+- [ ] Add more humor to the fallback data!!
 
 ---
 
-## 📚 Project Documentation
+## 📚 Technical Docs
 
-If you're a contributor or just curious about the internals, check out these docs:
+If you're a contributor or just curious about how this mess works:
 
-- **[Product Requirements (PRD)](../docs/PRD.md)**: What we're building and why.
-- **[System Architecture](../docs/System_Architecture.md)**: High-level technical design.
-- **[Technical Specifications](../docs/Technical_Specifications.md)**: Detailed implementation guide.
-- **[Risk & Scalability](../docs/Risk_Security_Scalability.md)**: Security and future roadmap.
+- **[Product Requirements (PRD)](../docs/PRD.md)**
+- **[System Architecture](../docs/System_Architecture.md)**
+- **[Technical Specifications](../docs/Technical_Specifications.md)**
+- **[Risk & Scalability](../docs/Risk_Security_Scalability.md)**
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## License 
+MIT. Do whatever you want with it. 
 
 ---
-Made with ❤️ by [Zainul Mutaqin](https://github.com/Zainul342) - tbh mostly built this for my own workflows but hope it helps.
+Made with ❤️ by [Zainul Mutaqin](https://github.com/Zainul342) - hope this helps someone else!
