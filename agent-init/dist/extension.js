@@ -160,42 +160,65 @@ class GitHubClient {
         this.baseUrl = 'https://raw.githubusercontent.com';
     }
     /**
-     * Fetches templates from the remote repository.
+     * Fetches templates from the remote repository with concurrency control.
      * @param source The source repository details.
+     * @param onProgress Optional callback for progress updates.
      */
-    async fetchTemplate(source) {
+    async fetchTemplate(source, onFetchResult) {
         const files = new Map();
-        // Parallel fetch
-        await Promise.all(fallback_data_1.filesToFetch.map(async (filePath) => {
+        const concurrencyLimit = 5;
+        const queue = [...fallback_data_1.filesToFetch];
+        const results = [];
+        // Simple concurrency limiter
+        const next = async () => {
+            if (queue.length === 0)
+                return;
+            const filePath = queue.shift();
             const url = `${this.baseUrl}/${source.owner}/${source.repo}/${source.branch}/${filePath}`;
             try {
                 const content = await this.fetchUrl(url);
                 files.set(filePath, content);
+                onFetchResult?.({ path: filePath, status: 'remote' });
             }
             catch (error) {
-                console.error(`Failed to fetch ${url}:`, error);
-                // Fallback mechanism for ALL files
+                // Fallback mechanism
                 if (fallback_data_1.FALLBACK_CONTENT[filePath]) {
-                    console.warn(`Using fallback content for ${filePath}`);
                     files.set(filePath, fallback_data_1.FALLBACK_CONTENT[filePath]);
-                    return;
+                    onFetchResult?.({ path: filePath, status: 'fallback', error: error });
                 }
-                if (filePath === '.cursorrules') {
-                    throw new Error(`Critical file missing: ${filePath}`);
+                else {
+                    onFetchResult?.({ path: filePath, status: 'failed', error: error });
+                    if (filePath === '.cursorrules') {
+                        throw new Error(`Critical file missing: ${filePath}`);
+                    }
                 }
             }
-        }));
+            await next(); // Process next item
+        };
+        // Start initial batch
+        for (let i = 0; i < Math.min(concurrencyLimit, fallback_data_1.filesToFetch.length); i++) {
+            results.push(next());
+        }
+        await Promise.all(results);
         return {
             files,
-            version: 'latest' // Todo: Implement versioning
+            version: 'latest'
         };
     }
     async fetchUrl(url) {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
+        // Add timeout to prevent hanging requests
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+        try {
+            const response = await fetch(url, { signal: controller.signal });
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            return await response.text();
         }
-        return await response.text();
+        finally {
+            clearTimeout(timeoutId);
+        }
     }
 }
 exports.GitHubClient = GitHubClient;

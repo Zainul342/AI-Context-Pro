@@ -15,42 +15,65 @@ class GitHubClient {
         this.baseUrl = 'https://raw.githubusercontent.com';
     }
     /**
-     * Fetches templates from the remote repository.
+     * Fetches templates from the remote repository with concurrency control.
      * @param source The source repository details.
+     * @param onProgress Optional callback for progress updates.
      */
-    async fetchTemplate(source) {
+    async fetchTemplate(source, onFetchResult) {
         const files = new Map();
-        // Parallel fetch
-        await Promise.all(fallback_data_1.filesToFetch.map(async (filePath) => {
+        const concurrencyLimit = 5;
+        const queue = [...fallback_data_1.filesToFetch];
+        const results = [];
+        // Simple concurrency limiter
+        const next = async () => {
+            if (queue.length === 0)
+                return;
+            const filePath = queue.shift();
             const url = `${this.baseUrl}/${source.owner}/${source.repo}/${source.branch}/${filePath}`;
             try {
                 const content = await this.fetchUrl(url);
                 files.set(filePath, content);
+                onFetchResult?.({ path: filePath, status: 'remote' });
             }
             catch (error) {
-                console.error(`Failed to fetch ${url}:`, error);
-                // Fallback mechanism for ALL files
+                // Fallback mechanism
                 if (fallback_data_1.FALLBACK_CONTENT[filePath]) {
-                    console.warn(`Using fallback content for ${filePath}`);
                     files.set(filePath, fallback_data_1.FALLBACK_CONTENT[filePath]);
-                    return;
+                    onFetchResult?.({ path: filePath, status: 'fallback', error: error });
                 }
-                if (filePath === '.cursorrules') {
-                    throw new Error(`Critical file missing: ${filePath}`);
+                else {
+                    onFetchResult?.({ path: filePath, status: 'failed', error: error });
+                    if (filePath === '.cursorrules') {
+                        throw new Error(`Critical file missing: ${filePath}`);
+                    }
                 }
             }
-        }));
+            await next(); // Process next item
+        };
+        // Start initial batch
+        for (let i = 0; i < Math.min(concurrencyLimit, fallback_data_1.filesToFetch.length); i++) {
+            results.push(next());
+        }
+        await Promise.all(results);
         return {
             files,
-            version: 'latest' // Todo: Implement versioning
+            version: 'latest'
         };
     }
     async fetchUrl(url) {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
+        // Add timeout to prevent hanging requests
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+        try {
+            const response = await fetch(url, { signal: controller.signal });
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            return await response.text();
         }
-        return await response.text();
+        finally {
+            clearTimeout(timeoutId);
+        }
     }
 }
 exports.GitHubClient = GitHubClient;
@@ -255,8 +278,16 @@ class Spinner {
         this.interval = setInterval(() => {
             const frame = this.frames[this.currentFrame];
             this.currentFrame = (this.currentFrame + 1) % this.frames.length;
-            process.stdout.write(`\r${c.cyan}${frame}${c.reset} ${this.text}`);
+            this.render(frame);
         }, 80);
+    }
+    updateText(newText) {
+        this.text = newText;
+        // Immediate render update if needed, but interval will handle it
+    }
+    render(frame) {
+        // Clear line and rewrite
+        process.stdout.write(`\r\x1b[K${c.cyan}${frame}${c.reset} ${this.text}`);
     }
     stop(symbol = symbols.success, endText) {
         if (this.interval) {
@@ -264,7 +295,7 @@ class Spinner {
             this.interval = null;
         }
         const finalText = endText || this.text;
-        process.stdout.write(`\r${symbol} ${finalText}\n`);
+        process.stdout.write(`\r\x1b[K${symbol} ${finalText}\n`);
         process.stdout.write('\x1B[?25h'); // Show cursor
     }
     fail(errorText) {
@@ -276,7 +307,7 @@ function printBanner() {
     console.log(`${c.bright}${c.magenta}   ___   ___  ___  ${c.reset}`);
     console.log(`${c.bright}${c.magenta}  / _ | / __|/ _ \\ ${c.reset}`);
     console.log(`${c.bright}${c.magenta} / __ || (__/ ___/ ${c.reset} ${c.dim}AI Context Pro${c.reset}`);
-    console.log(`${c.bright}${c.magenta}/_/ |_| \\___/_/    ${c.reset} ${c.dim}v1.0.1${c.reset}`);
+    console.log(`${c.bright}${c.magenta}/_/ |_| \\___/_/    ${c.reset} ${c.dim}v1.0.3${c.reset}`);
     console.log('');
     console.log(`${c.dim}Standardizing your AI workspace...${c.reset}`);
     console.log('');
@@ -291,7 +322,7 @@ async function main() {
     const command = args[0];
     // Handle --version or -v
     if (command === '--version' || command === '-v') {
-        console.log('1.0.1');
+        console.log('1.0.3');
         process.exit(0);
     }
     // Handle --help or -h
@@ -319,18 +350,35 @@ async function install() {
     const github = new github_client_1.GitHubClient();
     const fileHandler = new file_handler_1.FileHandler();
     const cwd = process.cwd();
-    const fetchSpinner = new Spinner('Fetching latest standards from GitHub...');
+    const fetchSpinner = new Spinner('Connecting to GitHub...');
+    let fetchedCount = 0;
+    let fallbackCount = 0;
     try {
         fetchSpinner.start();
-        // MVP: Fetch from main branch
-        // Simulated delay for UX (optional, can remove)
-        // await new Promise(r => setTimeout(r, 800));
+        // Fetch with concurrency control and progress tracking
         const template = await github.fetchTemplate({
             owner: 'irahardianto',
             repo: 'antigravity-setup',
             branch: 'main'
+        }, (result) => {
+            // Clean callback logic, avoid console.log spam
+            if (result.status === 'remote') {
+                fetchedCount++;
+            }
+            else if (result.status === 'fallback') {
+                fallbackCount++;
+            }
+            const total = fetchedCount + fallbackCount;
+            fetchSpinner.updateText(`Fetching files... (${total} processed)`);
         });
-        fetchSpinner.stop(symbols.success, `Fetched ${c.bright}${template.files.size}${c.reset} files from remote.`);
+        // Final status message logic
+        let statusMsg = `Fetched ${c.bright}${fetchedCount}${c.reset} files from remote.`;
+        let statusIcon = symbols.success;
+        if (fallbackCount > 0) {
+            statusMsg += ` ${c.yellow}(${fallbackCount} used offline backup)${c.reset}`;
+            statusIcon = symbols.warning; // Show yellow warning icon if any fallbacks used
+        }
+        fetchSpinner.stop(statusIcon, statusMsg);
         const writeSpinner = new Spinner(`Writing files to ${c.dim}${cwd}${c.reset}...`);
         writeSpinner.start();
         await fileHandler.writeFiles(cwd, template.files);
@@ -352,7 +400,8 @@ async function install() {
         else
             console.error(`${symbols.error} Installation failed:`, error);
         // Show detailed error if needed
-        console.error(c.red + (error instanceof Error ? error.message : String(error)) + c.reset);
+        const errorMsg = error instanceof Error ? error.message : String(error);
+        console.error(c.red + 'Error details: ' + errorMsg + c.reset);
         process.exit(1);
     }
 }
