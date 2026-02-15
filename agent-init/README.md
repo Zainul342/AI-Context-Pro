@@ -17,7 +17,7 @@
 
 The problem with modern AI coding isn't the intelligence of the model; it is the context it lacks. You start a new project, and the AI immediately forgets your architectural standards, testing protocols, and design principles. You find yourself copy-pasting the same instructions, over and over, hoping the AI respects them this time.
 
-**Agent Init** solves this by enforcing a standardized context layer. It injects a comprehensive `.agent` directory into your project, defining the rules of engagement before you write a single line of code.
+**Agent Init** fixes this. One command and your workspace is standardized with the latest AI context protocols. No more hallucinations because you forgot to tell the agent about your "I/O Isolation" rule. It injects a comprehensive `.agent` directory into your project, defining the rules of engagement before you write a single line of code.
 
 ## The Universal Method
 
@@ -45,14 +45,14 @@ Your local rules are synchronized with the absolute latest standards. If a new s
 Built with offline fallback capabilities. Development doesn't stop just because the internet does. If the central repository is unreachable, the system automatically uses a bundled, high-quality backup of the standards.
 
 **Editor Integration**
-While the CLI works everywhere, we provide deep integration for VS Code. The extension manages `.cursorrules` to point directly to the generated context, creating a seamless bridge between your editor and the AI context.
+While the CLI works everywhere, we provide deep integration for VS Code. The extension can automatically generate `.cursorrules` (if needed) to point directly to the generated context, creating a seamless bridge between your editor and the AI context.
 
 ## VS Code Extension
 
 For those who prefer a GUI approach, the VS Code extension offers the same power accessible directly from the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`).
 
 **Initialize Standards**
-Restores or creates the full `.agent` structure and `.cursorrules`. This is the recommended first step for any new project.
+Restores or creates the full `.agent` structure. This is the recommended first step for any new project.
 
 **Repair Standards**
 Scans your existing configuration for missing or corrupted files. If it finds discrepancies, it repairs them without overwriting your custom modifications where possible.
