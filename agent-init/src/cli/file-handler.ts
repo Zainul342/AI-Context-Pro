@@ -1,6 +1,8 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
+
+
 export class FileHandler {
     /**
      * Writes multiple files to the filesystem.
@@ -21,6 +23,7 @@ export class FileHandler {
 
         // Write file
         await fs.writeFile(filePath, content, 'utf-8');
-        console.log(`Created: ${filePath}`);
+        // console.log(`${c.green}✔ Created:${c.reset} ${c.dim}${filePath}${c.reset}`); 
+        // Commented out to reduce noise, handled by spinner in index.ts
     }
 }

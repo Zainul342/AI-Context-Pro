@@ -2,7 +2,7 @@
   "name": "acp-method",
   "displayName": "AI Context Pro: Agent Init",
   "description": "Standardize your AI coding environment by automatically initializing agent rules, workflows, and skills.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "Zainul342",
   "license": "MIT",
   "icon": "resources/icon.png",
