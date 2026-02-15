@@ -89,6 +89,9 @@ const cliConfig = {
     performance: {
         hints: false
     },
+    plugins: [
+        new webpack.BannerPlugin({ banner: '#!/usr/bin/env node', raw: true }),
+    ],
     devtool: 'nosources-source-map'
 };
 
