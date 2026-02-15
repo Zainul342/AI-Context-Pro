@@ -1,0 +1,27 @@
+- id: STORY-01-01
+  epic_id: EPIC-01
+  title: Implement Semantic Versioning
+  description: Establish a semantic versioning strategy and automate version bumps.
+  status: done
+  acceptance_criteria:
+    - [ ] Define versioning policy in CONTRIBUTING.md
+    - [ ] Create script to manage version bumps
+
+- id: STORY-02-01
+  epic_id: EPIC-02
+  title: Fix UI-Controller Flicker
+  description: Resolve the visual artifact where the UI flashes during initialization.
+  status: done
+  acceptance_criteria:
+    - [ ] Identify root cause of flicker in `ui-controller.ts`
+    - [ ] Implement fix to smooth out transitions
+    - [ ] Verify fix with manual testing
+
+- id: STORY-03-01
+  epic_id: EPIC-03
+  title: Enhance Fallback Data Humor
+  description: Add creative and humorous entries to the fallback data to delight users when offline.
+  acceptance_criteria:
+    - [ ] Review existing fallback data
+    - [ ] Add at least 5 new humorous entries
+    - [ ] Ensure humor aligns with project tone (witty, dev-focused)

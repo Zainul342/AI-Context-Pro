@@ -1,5 +1,5 @@
 {
-  "name": "agent-init",
+  "name": "@zainul342/acp",
   "displayName": "AI Context Pro: Agent Init",
   "description": "Standardize your AI coding environment by automatically initializing agent rules, workflows, and skills.",
   "version": "1.0.0",
@@ -36,6 +36,9 @@
     "onStartupFinished"
   ],
   "main": "./dist/extension.js",
+  "bin": {
+    "acp": "./dist/cli/index.js"
+  },
   "contributes": {
     "commands": [
       {
@@ -81,7 +84,8 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "release": "node ./scripts/release.js"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",

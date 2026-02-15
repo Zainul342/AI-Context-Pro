@@ -1,0 +1,17 @@
+sprint: 1
+status: active
+start_date: 2026-02-15
+goals:
+  - Standardize governance
+  - Fix flicker
+  - Establish versioning
+stories:
+  - id: STORY-01-01
+    status: done
+    assignee: dev
+  - id: STORY-02-01
+    status: done
+    assignee: dev
+  - id: STORY-03-01
+    status: todo
+    assignee: dev

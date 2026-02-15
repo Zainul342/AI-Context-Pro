@@ -39,6 +39,16 @@ Tbh, I got really tired of manually setting up `.cursorrules` and `.agent` direc
 - **Cursor Sync** -- It updates `.cursorrules` globally. Pretty cool.
 
 ## 🕹 Quick Start
+You have two ways to do this. Pick your poison:
+
+### The CLI way (One Command for Everything)
+Just run this in your terminal and watch the magic happen:
+```bash
+npx acp install
+```
+This handles new installs, upgrades, and even expansion packs if you have them. It's basically the "Standardize My Life" button but for code.
+
+### The Extension way
 1. `Ctrl+Shift+P` (or `Cmd+Shift+P` for Mac folks).
 2. Type `Agent Init: Initialize Standards`.
 3. Press enter and just wait.. thats it!!
@@ -61,7 +71,7 @@ Notes: I built this named after my cat who likes to walk on my keyboard whenever
 ## 📝 TODO later
 - [ ] Implement of proper versioning (rn it just says "latest" lol)
 - [ ] Fix that one weird flicker in the UI-Controller
-- [ ] Add more humor to the fallback data!!
+- [x] Add more humor to the fallback data!! (Done, it's actually funny now)
 
 ---
 

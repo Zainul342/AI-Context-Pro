@@ -1,0 +1,17 @@
+- id: EPIC-01
+  title: Governance & release Management
+  description: Establish proper versioning and release protocols.
+  status: open
+  priority: high
+
+- id: EPIC-02
+  title: Core Stability & Performance
+  description: Fix UI glitches and ensure stable execution.
+  status: open
+  priority: high
+
+- id: EPIC-03
+  title: User Delight & Personality
+  description: Enhance the fallback data with more personality and humor.
+  status: open
+  priority: medium

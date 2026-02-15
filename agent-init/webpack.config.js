@@ -55,4 +55,41 @@ const webExtensionConfig = {
     },
 };
 
-module.exports = [webExtensionConfig];
+/** @type WebpackConfig */
+const cliConfig = {
+    mode: 'none',
+    target: 'node',
+    entry: {
+        'cli': './src/cli/index.ts'
+    },
+    output: {
+        filename: 'cli/index.js',
+        path: path.join(__dirname, './dist'),
+        libraryTarget: 'commonjs'
+    },
+    resolve: {
+        extensions: ['.ts', '.js']
+    },
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'ts-loader'
+                    }
+                ]
+            }
+        ]
+    },
+    externals: {
+        'vscode': 'commonjs vscode', // Should not be used in CLI, but safe to ignore
+    },
+    performance: {
+        hints: false
+    },
+    devtool: 'nosources-source-map'
+};
+
+module.exports = [webExtensionConfig, cliConfig];

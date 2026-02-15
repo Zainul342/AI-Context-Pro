@@ -3,158 +3,12 @@
 /******/ 	var __webpack_modules__ = ([
 /* 0 */,
 /* 1 */
-/***/ ((module) => {
-
-module.exports = require("vscode");
-
-/***/ }),
-/* 2 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.WatcherService = void 0;
-const vscode = __webpack_require__(1);
-const config_1 = __webpack_require__(3);
-class WatcherService {
-    constructor() {
-        // Initialize watcher
-    }
-    /**
-     * Checks if the workspace needs initialization.
-     * @param folder The workspace folder to check.
-     * @returns true if standards are missing, false if they exist.
-     */
-    async needsInitialization(folder) {
-        const config = config_1.ConfigManager.getConfiguration();
-        if (!config.checkOnStartup) {
-            return false;
-        }
-        const hasAgentDir = await this.pathExists(folder.uri, '.agent');
-        const hasCursorRules = await this.pathExists(folder.uri, '.cursorrules');
-        // Needs init if EITHER is missing (for now, stricter check)
-        // Or maybe just if .cursorrules is missing? 
-        // Let's require BOTH for a "complete" standard.
-        return !(hasAgentDir && hasCursorRules);
-    }
-    async pathExists(root, pathFragment) {
-        try {
-            const uri = vscode.Uri.joinPath(root, pathFragment);
-            await vscode.workspace.fs.stat(uri);
-            return true;
-        }
-        catch {
-            return false;
-        }
-    }
-    watch(context, callback) {
-        // 1. Check on startup
-        if (vscode.workspace.workspaceFolders) {
-            vscode.workspace.workspaceFolders.forEach(folder => {
-                this.needsInitialization(folder).then(needsInit => {
-                    if (needsInit) {
-                        callback(folder);
-                    }
-                });
-            });
-        }
-        // 2. Watch for new folders
-        context.subscriptions.push(vscode.workspace.onDidChangeWorkspaceFolders(event => {
-            event.added.forEach(folder => {
-                this.needsInitialization(folder).then(needsInit => {
-                    if (needsInit) {
-                        callback(folder);
-                    }
-                });
-            });
-        }));
-    }
-}
-exports.WatcherService = WatcherService;
-
-
-/***/ }),
-/* 3 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ConfigManager = void 0;
-const vscode = __webpack_require__(1);
-class ConfigManager {
-    static getConfiguration() {
-        const config = vscode.workspace.getConfiguration('agentInit');
-        return {
-            autoInit: config.get('autoInit', false),
-            checkOnStartup: config.get('checkOnStartup', true),
-            watchForDrift: config.get('watchForDrift', false)
-        };
-    }
-}
-exports.ConfigManager = ConfigManager;
-
-
-/***/ }),
-/* 4 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UIController = void 0;
-const vscode = __webpack_require__(1);
-class UIController {
-    constructor(context) {
-        this.context = context;
-    }
-    /**
-     * Shows a prompt to the user to initialize the project.
-     * @returns true if the user clicked "Initialize", false otherwise.
-     */
-    async showInitializePrompt() {
-        if (UIController.isPromptOpen) {
-            return false;
-        }
-        UIController.isPromptOpen = true;
-        try {
-            // Check if user ignored this workspace previously
-            const isIgnored = this.context.workspaceState.get('agentInit.ignored', false);
-            if (isIgnored) {
-                return false;
-            }
-            // Small delay to ensure UI is ready and prevent instant-flash on startup
-            await new Promise(resolve => setTimeout(resolve, 500));
-            const selection = await vscode.window.showInformationMessage('Agent Init: AI Standards missing in this workspace. Initialize now?', 'Initialize', 'Ignore');
-            if (selection === 'Initialize') {
-                return true;
-            }
-            if (selection === 'Ignore') {
-                await this.context.workspaceState.update('agentInit.ignored', true);
-            }
-            return false;
-        }
-        finally {
-            UIController.isPromptOpen = false;
-        }
-    }
-    showSuccessMessage(message) {
-        vscode.window.showInformationMessage(message);
-    }
-    showErrorMessage(message) {
-        vscode.window.showErrorMessage(message);
-    }
-}
-exports.UIController = UIController;
-UIController.isPromptOpen = false;
-
-
-/***/ }),
-/* 5 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GitHubClient = void 0;
-const fallback_data_1 = __webpack_require__(6);
+const fallback_data_1 = __webpack_require__(2);
 class GitHubClient {
     constructor() {
         this.baseUrl = 'https://raw.githubusercontent.com';
@@ -202,7 +56,7 @@ exports.GitHubClient = GitHubClient;
 
 
 /***/ }),
-/* 6 */
+/* 2 */
 /***/ ((__unused_webpack_module, exports) => {
 
 
@@ -284,37 +138,49 @@ exports.FALLBACK_CONTENT = {
 
 
 /***/ }),
-/* 7 */
+/* 3 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.FileHandler = void 0;
-const vscode = __webpack_require__(1);
+const fs = __webpack_require__(4);
+const path = __webpack_require__(5);
 class FileHandler {
     /**
-     * Writes multiple files to the workspace.
-     * @param root The root URI of the workspace.
+     * Writes multiple files to the filesystem.
+     * @param root The root directory path.
      * @param files A map of relative paths to content.
      */
     async writeFiles(root, files) {
         for (const [relativePath, content] of files) {
-            const targetUri = vscode.Uri.joinPath(root, relativePath);
-            await this.writeSingleFile(targetUri, content);
+            const targetPath = path.join(root, relativePath);
+            await this.writeSingleFile(targetPath, content);
         }
     }
-    async writeSingleFile(uri, content) {
+    async writeSingleFile(filePath, content) {
         // Ensure directory exists
-        const parentDir = vscode.Uri.joinPath(uri, '..');
-        await vscode.workspace.fs.createDirectory(parentDir);
+        const parentDir = path.dirname(filePath);
+        await fs.mkdir(parentDir, { recursive: true });
         // Write file
-        const encoder = new TextEncoder();
-        const data = encoder.encode(content);
-        await vscode.workspace.fs.writeFile(uri, data);
+        await fs.writeFile(filePath, content, 'utf-8');
+        console.log(`Created: ${filePath}`);
     }
 }
 exports.FileHandler = FileHandler;
 
+
+/***/ }),
+/* 4 */
+/***/ ((module) => {
+
+module.exports = require("fs/promises");
+
+/***/ }),
+/* 5 */
+/***/ ((module) => {
+
+module.exports = require("path");
 
 /***/ })
 /******/ 	]);
@@ -348,70 +214,53 @@ var __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
 var exports = __webpack_exports__;
+//#!/usr/bin/env node
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.activate = activate;
-exports.deactivate = deactivate;
-const vscode = __webpack_require__(1);
-const watcher_1 = __webpack_require__(2);
-const ui_controller_1 = __webpack_require__(4);
-const github_client_1 = __webpack_require__(5);
-const file_handler_1 = __webpack_require__(7);
-function activate(context) {
-    console.log('Congratulations, your extension "agent-init" is now active!');
-    // 1. Register Commands
-    const disposable = vscode.commands.registerCommand('agentInit.initialize', async () => {
-        // Manual Trigger
-        const ui = new ui_controller_1.UIController(context);
-        const workspaceFolders = vscode.workspace.workspaceFolders;
-        if (!workspaceFolders) {
-            ui.showErrorMessage('No workspace open.');
-            return;
-        }
-        // For manual trigger, we can pick the first one or ask user. 
-        // MVP: Pick first.
-        const folder = workspaceFolders[0];
-        await performInitialization(folder, ui);
-    });
-    const checkStatusDisposable = vscode.commands.registerCommand('agentInit.checkStatus', () => {
-        vscode.window.showInformationMessage('Agent Init: Status Check');
-    });
-    context.subscriptions.push(disposable);
-    context.subscriptions.push(checkStatusDisposable);
-    // 2. Initialize Watcher (Automatic Detection)
-    const watcher = new watcher_1.WatcherService();
-    const ui = new ui_controller_1.UIController(context);
-    watcher.watch(context, async (folder) => {
-        console.log(`Agent Init: Standards missing in ${folder.name}`);
-        const shouldInit = await ui.showInitializePrompt();
-        if (shouldInit) {
-            await performInitialization(folder, ui);
-        }
-    });
-    console.log('Agent Init: Detection Watcher Active');
+const github_client_1 = __webpack_require__(1);
+const file_handler_1 = __webpack_require__(3);
+// Polyfill fetch for older Node.js versions if needed
+// (Node 18+ has native fetch)
+if (!global.fetch) {
+    console.warn('Warning: Native fetch not found. Install Node.js 18+ or a polyfill.');
 }
-async function performInitialization(folder, ui) {
+async function main() {
+    const args = process.argv.slice(2);
+    const command = args[0];
+    if (command === 'install') {
+        console.log('🤖 ACP: Initializing AI Context...');
+        await install();
+    }
+    else {
+        console.log('Usage: npx acp install');
+    }
+}
+async function install() {
     const github = new github_client_1.GitHubClient();
     const fileHandler = new file_handler_1.FileHandler();
+    const cwd = process.cwd();
     try {
-        ui.showSuccessMessage('Agent Init: Fetching templates...');
+        console.log('📦 Fetching latest standards from GitHub...');
+        // MVP: Fetch from main branch
         const template = await github.fetchTemplate({
             owner: 'irahardianto',
             repo: 'antigravity-setup',
             branch: 'main'
         });
-        await fileHandler.writeFiles(folder.uri, template.files);
-        ui.showSuccessMessage('Agent Init: AI Standards initialized successfully!');
+        console.log(`📝 Writing ${template.files.size} files to ${cwd}...`);
+        await fileHandler.writeFiles(cwd, template.files);
+        console.log('✅ AI Context Pro initialized successfully!');
+        console.log('🚀 Run "npx acp install" anytime to update standards.');
     }
     catch (error) {
-        const msg = error instanceof Error ? error.message : String(error);
-        ui.showErrorMessage(`Initialization Failed: ${msg}`);
-        console.error('Agent Init Error:', error);
+        console.error('❌ Installation failed:', error);
+        process.exit(1);
     }
 }
-function deactivate() {
-    // Clean up resources
-}
+main().catch(err => {
+    console.error('Fatal error:', err);
+    process.exit(1);
+});
 
 })();
 
@@ -420,4 +269,4 @@ for(var __webpack_i__ in __webpack_exports__) __webpack_export_target__[__webpac
 if(__webpack_exports__.__esModule) Object.defineProperty(__webpack_export_target__, "__esModule", { value: true });
 /******/ })()
 ;
-//# sourceMappingURL=extension.js.map
+//# sourceMappingURL=index.js.map
